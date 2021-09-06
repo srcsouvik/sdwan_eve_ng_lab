@@ -5,6 +5,7 @@ In this lab, we will go through how to configure CISCO SD-WAN lab in EVE-NG. Whi
 * vEdge and cEdge onboarding
 * Replicate ZTP onboarding process
 * Extending by replicating real world scenario's with small, medium large type of site or branch offices
+* TLOC extension for Medium sites
 * Working with device and feature templates
 * Enable control policies to achieve hub-n-spoke type topology*
 * Prefer one transport over other
