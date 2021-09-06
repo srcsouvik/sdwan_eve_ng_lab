@@ -149,12 +149,17 @@ Install the root CA on the controllers:
 request root-cert-chain install /home/admin/CA.crt 
 ```
 # 3. Adding Controllers to the vManage
-Now we connect to the vManage controller from the Linux VM from a browser on the vpn512 interface IP, https://192.168.1.1 or https://192.168.1.1:8443. Upon login first thing we should do is set the Organisation name and vBond IP by navigating to ```Administration > Settings```.
-<<insert pic here>>
+Now we connect to the vManage controller from the Linux VM from a browser on the vpn512 interface IP, https://192.168.1.1 or https://192.168.1.1:8443.
+![image](https://user-images.githubusercontent.com/84218572/132218754-12003534-e39b-478c-be70-c9b9c34d0379.png)
+Upon login first thing we should do is set the Organisation name and vBond IP by navigating to ```Administration > Settings```.
+![image](https://user-images.githubusercontent.com/84218572/132219053-ef89ec56-50e6-4784-b1dc-2694276b0b1c.png)
 ## 3.1. Installing Root CA on vManage
-To be updated
+Next we set the controller Certificate Authorization to Enterprise Root Certificate and upload the CA.crt file
+![image](https://user-images.githubusercontent.com/84218572/132219413-d70a7e13-024c-4193-a857-a486fb78b505.png)
 ## 3.2. Add vSmart and Vbond to vManage
-To be updated 
+Now navigating to ```Configuration > Devices > Controllers > Add Controller ``` from drop down select vSmart and provide the IP, username, password uncheck Generate CSR and click add.
+![image](https://user-images.githubusercontent.com/84218572/132220125-f2cbf845-1923-4c6e-9498-d60e4c137af4.png)
+Repeat the above step for adding the vBond.
 ## 3.3. Generate and download CSR's for vManage, VSmart and Vbond 
 To be updated
 ## 3.4. Sign the controller CSR's using CA cert
