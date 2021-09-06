@@ -1,4 +1,4 @@
-# Cisco SDWAN EVE_NG_Lab
+# Cisco SDWAN EVE-NG Lab
 In this lab, we will go through how to configure CISCO SD-WAN lab in EVE-NG. Which include the following
 
 * Initial topology for the control plane devices: vManage, vBond, and vSmart.
