@@ -2,7 +2,8 @@
 In this lab, we will go through how to configure CISCO SD-WAN lab in EVE-NG. Which include the following
 
 * Initial topology for the control plane devices: vManage, vBond, and vSmart.
-* vEdge onboarding
+* vEdge and cEdge onboarding
+* Replicate ZTP onboarding process
 * Extending by replicating real world scenario's with small, medium large type of site or branch offices
 * Working with device and feature templates
 * Enable control policies to achieve hub-n-spoke type topology*
