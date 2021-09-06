@@ -26,7 +26,7 @@ Here are the list of softwares used in this lab:
 * cEdge(CSR1000v) - 17.03.03
 * Cisco IOL l2/l3 - Version 15.2d/15.5(2)T
 ## 1.2. EVE-NG system requirements
-In this lab EVE-NG was setup in Google Cloud Platform(GCP) with 32 GB of RAM and 16 vCPU's allocated to it, for more on how to setup EVE-NNG in GCP refer the EVE-NG Cookbook documentation section 3.4 page 43. 
+In this lab EVE-NG was setup in Google Cloud Platform(GCP) with 32 GB of RAM and 16 vCPU's allocated to it, for more on how to setup EVE-NNG in GCP refer the EVE-NG Community Cookbook documentation section 3.4 page 43 onwards(https://www.eve-ng.net/index.php/documentation/community-cookbook/).
 
 * vManage is 12 GB RAM, 2 vCPUs, 30 GB storage
 * vSmart is 4 GB RAM, 1 vCPU, no required storage
@@ -35,7 +35,7 @@ In this lab EVE-NG was setup in Google Cloud Platform(GCP) with 32 GB of RAM and
 * Border Router: CSR1000v - 3GB RAM, 1 vCPU
 * 2 vEdges router: 2 GB RAM and 1 vCPU each
 
-When the full lab is running the gsn3 VM CPU 28.5%; RAM 85.9%.
+
 ## 1.3. Control Plane setup
 First thing in SDWAN is to bring up the control plane for this we will focus on the below section of the topology
 
