@@ -13,7 +13,7 @@ In this lab, we will go through how to configure CISCO SD-WAN lab in EVE-NG. Whi
 * Enable local internet breakdown and failover to DC default route
 
 We will be working with the below topology:
-![image](https://user-images.githubusercontent.com/84218572/132160524-0e5f918c-6af4-447c-a8f1-e1347cf0d38d.png)
+![image](https://user-images.githubusercontent.com/84218572/132181134-dfcaa57b-21ac-48dd-b837-c493e8f957ae.png)
 
 # 1. Software/hardware used in this lab
 ## 1.1. Lab Software
@@ -47,3 +47,35 @@ vManage |	eth0 - 1.1.1.1/28	| eth1 - 192.168.1.1/24
 vSmart | eth0 - 1.1.1.2/28	| eth1 - 192.168.1.2/24
 vBond	| Ge0/0 - 1.1.1.3/28 |	eth0 - 192.168.1.3/24
 Linux | eth0 - 1.1.1.4/28 |  eth1 - 192.168.1.4/24
+
+Here the Linux host is being used as the CA server and also to gain GUI access to the vmanage for configuration purpose.
+
+# 2. Control plane devices configuration
+Initial bootstrap configuration of the controllers
+
+## 2.1. vManage
+Skinny config for vManage:
+
+```
+config
+system 
+host-name vManage
+system-ip 100.1.1.1
+site-id 1
+organization-name srcsdwanlab
+vbond 1.1.1.3
+vpn 0
+ interface eth0
+  ip address 1.1.1.1/28
+  no shutdown
+  tunnel-interface
+   allow-service all
+   allow-service sshd
+   allow-service netconf
+ ip route 0.0.0.0/0 1.1.1.14
+vpn 512 
+ interface eth1
+  ip address 192.168.1.1/24
+  no shutdown
+commit and-quit
+```
