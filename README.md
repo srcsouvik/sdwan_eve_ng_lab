@@ -79,3 +79,74 @@ vpn 512
   no shutdown
 commit and-quit
 ```
+## 2.2. vSmart
+Skinny config for vSmart:
+
+```
+config
+system
+ host-name vSmart
+ system-ip 100.1.1.2
+ site-id 1
+ organization-name srcsdwanlab
+ vbond 1.1.1.3
+vpn 0
+ interface eth0
+  ip address 1.1.1.2/28
+  no shutdown
+  tunnel-interface
+   allow-service all
+   allow-service sshd
+   allow-service netconf
+ ip route 0.0.0.0/0 1.1.1.14
+vpn 512 
+ int eth1
+  ip add 192.168.1.2/24
+  no shutdown
+commit and-quit
+```
+## 2.3. vBond
+Skinny config for vBond:
+
+```
+config
+system
+ host-name vBond
+ system-ip 100.1.1.3
+ site-id 1
+ organization-name srcsdwanlab
+ vbond 1.1.1.3 local
+vpn 0
+ interface ge0/0
+  ip address 1.1.1.3/28
+  no shutdown
+  tunnel-interface
+   allow-service all
+   allow-service sshd
+   allow-service netconf
+ ip route 0.0.0.0/0 1.1.1.14
+vpn 512
+ interface eth0
+  ip address 192.168.1.3/24
+  no shutdown
+commit and-quit
+```
+## 2.4. Linux VM setup as CA Server
+Next we launch the Linux VM and using a terminal window generate the Root CA key and certificate, that will be used to sign the controller certificates.
+Command to Generate the keys and CA cert:
+```
+openssl genrsa -out CA.key 2048
+openssl req -new -x509 -days 1000 -key CA.key -out CA.crt
+```
+Transfer the CA cert generated above to the controllers using SCP:
+```
+scp CA.crt admin@192.168.1.1:
+scp CA.crt admin@192.168.1.2:
+scp CA.crt admin@192.168.1.3:
+```
+Install the root CA on the controllers:
+```
+request root-cert-chain install /home/admin/CA.crt 
+```
+# 3 Adding Controllers to the vManage
+Now we connect to the vManage controller from the Linux VM from a browser on the vpn512 interface IP, https://192.168.1.1 or https://192.168.1.1:8443. Upon login first thing we should do is set the Organisation name and vBond IP by navigating to ```Administration > Settings```.
