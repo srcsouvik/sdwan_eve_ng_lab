@@ -150,8 +150,11 @@ request root-cert-chain install /home/admin/CA.crt
 ```
 # 3. Adding Controllers to the vManage
 Now we connect to the vManage controller from the Linux VM from a browser on the vpn512 interface IP, https://192.168.1.1 or https://192.168.1.1:8443.
+
 ![image](https://user-images.githubusercontent.com/84218572/132218754-12003534-e39b-478c-be70-c9b9c34d0379.png)
+
 Upon login first thing we should do is set the Organisation name and vBond IP by navigating to ```Administration > Settings```.
+
 ![image](https://user-images.githubusercontent.com/84218572/132219053-ef89ec56-50e6-4784-b1dc-2694276b0b1c.png)
 ## 3.1. Installing Root CA on vManage
 Next we set the controller Certificate Authorization to Enterprise Root Certificate and upload the CA.crt file
@@ -161,7 +164,16 @@ Now navigating to ```Configuration > Devices > Controllers > Add Controller ``` 
 ![image](https://user-images.githubusercontent.com/84218572/132220125-f2cbf845-1923-4c6e-9498-d60e4c137af4.png)
 Repeat the above step for adding the vBond.
 ## 3.3. Generate and download CSR's for vManage, VSmart and Vbond 
-To be updated
+Next we need to generate the controller CSR's by navigating to ```Configuration > Certificates > Controllers ``` select vManage click on the three dots and Generate CSR
+
+![image](https://user-images.githubusercontent.com/84218572/132221327-3c97b50f-9ea0-46ad-9d8a-a4e9da08c886.png)
+
+Download and save the file as vManage.csr in the directory where we have the Root CA.
+
+![image](https://user-images.githubusercontent.com/84218572/132221918-ac559d6b-67ea-498d-9ab3-baa995ce246b.png)
+
+Repeat the above steps for vBond.csr and vSmart.csr.
+
 ## 3.4. Sign the controller CSR's using CA cert
 Sign the certs of the Controllers:
  ```
@@ -169,5 +181,13 @@ openssl x509 -req -in vManage.csr -CA CA.crt -CAkey CA.key -CAcreateserial -out 
 openssl x509 -req -in vBond.csr -CA CA.crt -CAkey CA.key -CAcreateserial -out vBond.crt -days 2000 -sha256
 openssl x509 -req -in vSmart.csr -CA CA.crt -CAkey CA.key -CAcreateserial -out vSmart.crt -days 2000 -sha256
  ```
- 
+ ![image](https://user-images.githubusercontent.com/84218572/132224318-e2e42041-1747-42b8-83cd-0585b1398c82.png)
+
 ## 3.5 Install the certs 
+Now we need to install the certificate by navigating to ```Configuration > Certificates > Controllers ``` select vManage and then ```Install Certificate``` on top right hand corner, then selet the vManage.crt file from the directory and click install.
+
+![image](https://user-images.githubusercontent.com/84218572/132223309-5b12fa90-d992-4270-82ea-41e81fc97c67.png)
+
+Repeat the above steps for vSmart and vBond, once all the certs are installed the certificate status should change to installed for all the controllers
+![image](https://user-images.githubusercontent.com/84218572/132224713-df125b40-f612-4d7e-8e2d-745349db3acf.png)
+
