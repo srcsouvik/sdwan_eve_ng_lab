@@ -183,11 +183,14 @@ openssl x509 -req -in vSmart.csr -CA CA.crt -CAkey CA.key -CAcreateserial -out v
  ```
  ![image](https://user-images.githubusercontent.com/84218572/132224318-e2e42041-1747-42b8-83cd-0585b1398c82.png)
 
-## 3.5 Install the certs 
+## 3.5. Install the certs 
 Now we need to install the certificate by navigating to ```Configuration > Certificates > Controllers ``` select vManage and then ```Install Certificate``` on top right hand corner, then selet the vManage.crt file from the directory and click install.
 
 ![image](https://user-images.githubusercontent.com/84218572/132223309-5b12fa90-d992-4270-82ea-41e81fc97c67.png)
 
-Repeat the above steps for vSmart and vBond, once all the certs are installed the certificate status should change to installed for all the controllers
+Repeat the above steps for vSmart and vBond, once all the certs are installed the certificate status should change to installed for all the controllers.
 ![image](https://user-images.githubusercontent.com/84218572/132224713-df125b40-f612-4d7e-8e2d-745349db3acf.png)
 
+## 3.6. Uploading the WAN Edge list
+Befor proceeding any further we would need valid WAN Edge list to onboard any vEdge/cEdge, this can be done by going to ``` Configuration > Devices and click Upload WAN Edge List```.
+![image](https://user-images.githubusercontent.com/84218572/132226516-f4728d6a-899f-45f7-9673-3ad289062ec8.png)
