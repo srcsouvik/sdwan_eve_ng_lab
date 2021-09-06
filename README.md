@@ -1,12 +1,12 @@
 # Cisco SDWAN EVE-NG Lab
-In this lab, we will go through how to configure CISCO SD-WAN lab in EVE-NG. Which include the following
+In this lab, we will go through how to configure CISCO SD-WAN lab in EVE-NG. Which includes the following
 
-* Initial topology for the control plane devices: vManage, vBond, and vSmart.
+* Control plane setup vManage, vBond, and vSmart.
 * vEdge and cEdge onboarding
-* Replicate ZTP onboarding process
-* Extending by replicating real world scenario's with small, medium large type of site or branch offices
-* TLOC extension for Medium sites
 * Working with device and feature templates
+* Replicate ZTP onboarding process
+* Replicate real world scenario's with small, medium large type of site or branch offices
+* TLOC extension for Medium sites
 * Enable control policies to achieve hub-n-spoke type topology*
 * Prefer one transport over other
 * Replicate migration from Non-SDWAn sites to SDWAN site/routing between SDWAN and Non-SDWAN sites.
@@ -194,3 +194,9 @@ Repeat the above steps for vSmart and vBond, once all the certs are installed th
 ## 3.6. Uploading the WAN Edge list
 Befor proceeding any further we would need valid WAN Edge list to onboard any vEdge/cEdge, this can be done by going to ``` Configuration > Devices and click Upload WAN Edge List```.
 ![image](https://user-images.githubusercontent.com/84218572/132226516-f4728d6a-899f-45f7-9673-3ad289062ec8.png)
+
+Once the WAN Edge is uploaded and validated it wil show up under ```Configuration > Devices```.
+
+![image](https://user-images.githubusercontent.com/84218572/132227665-9adff67d-80f1-4712-9437-a504edcf6039.png)
+
+
