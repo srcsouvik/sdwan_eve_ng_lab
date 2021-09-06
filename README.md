@@ -14,3 +14,14 @@ In this lab, we will go through how to configure CISCO SD-WAN lab in EVE-NG. Whi
 
 We will be working with the below topology:
 ![image](https://user-images.githubusercontent.com/84218572/132160524-0e5f918c-6af4-447c-a8f1-e1347cf0d38d.png)
+
+1. Software/hardware used in this lab
+1.1. Lab Software
+* EVE-NG Community Edition 2.0.3-112
+* VMware® Workstation 15 Pro
+* vManage - 20.4.2
+* vBond and vEdge - 20.4.2
+* vSmart - 20.4.2
+* vEdge - 20.4.2
+* CSR1000v - 17.03.03
+* Cisco IOL l2/l3 - Version 15.2d/15.5(2)T
