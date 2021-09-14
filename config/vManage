@@ -1,0 +1,78 @@
+system
+ host-name             vManage
+ system-ip             100.1.1.1
+ site-id               1
+ admin-tech-on-failure
+ no vrrp-advt-with-phymac
+ sp-organization-name  srcsdwanlab
+ organization-name     srcsdwanlab
+ clock timezone Australia/Sydney
+ vbond 1.1.1.3
+ aaa
+  auth-order local radius tacacs
+  usergroup basic
+   task system read write
+   task interface read write
+  !
+  usergroup netadmin
+  !
+  usergroup operator
+   task system read
+   task interface read
+   task policy read
+   task routing read
+   task security read
+  !
+  usergroup tenantadmin
+  !
+  user admin
+   password $6$f4f08e4b0d638f25$X0YbyzerLul2AGgdj4kKDCtVjxKUjNtfkyTkwGvxdaPtdHCs1iF3UWSh1.BBPa2.xfDoHBAkSfK02wFOKDH911
+  !
+  user ciscotacro
+   description CiscoTACReadOnly
+   group       operator
+   status      enabled
+  !
+  user ciscotacrw
+   description CiscoTACReadWrite
+   group       netadmin
+   status      enabled
+  !
+ !
+ logging
+  disk
+   enable
+  !
+ !
+ ntp
+  parent
+   no enable
+   stratum 5
+  exit
+ !
+!
+vpn 0
+ interface eth0
+  ip address 1.1.1.1/28
+  ipv6 dhcp-client
+  tunnel-interface
+   allow-service all
+   allow-service dhcp
+   allow-service dns
+   allow-service icmp
+   allow-service sshd
+   allow-service netconf
+   no allow-service ntp
+   no allow-service stun
+   allow-service https
+  !
+  no shutdown
+ !
+ ip route 0.0.0.0/0 1.1.1.14
+!
+vpn 512
+ interface eth1
+  ip address 192.168.1.1/24
+  no shutdown
+ !
+!
