@@ -199,4 +199,64 @@ Once the WAN Edge is uploaded and validated it wil show up under ```Configuratio
 
 ![image](https://user-images.githubusercontent.com/84218572/132227665-9adff67d-80f1-4712-9437-a504edcf6039.png)
 
+# 4. Setting up the underlay transport Internet & MPLS
+In this lab topology routers GW-RTR & MPLS provide the Internet and MPLS connectivity. GW-RTR also acts as the DHCP and DNS server which will later help us in orchestrating ZTP process. The configuration of these devices are straight forward to provide IP reachability over each tranport to the controllers, the configs can be found in the config folder.
+
+# 5. vEdge Onboarding process
+Skinny config for vEdge for Site10-vEdge01
+```
+config
+system
+ host-name Site10-vEdge01
+ system-ip 10.100.10.10
+ site-id 10
+ organization-name srcsdwanlab
+ vbond 1.1.1.3
+!
+vpn 0
+ interface ge0/0
+  ip address 51.51.10.10/24
+  ipv6 dhcp-client
+  tunnel-interface
+   allow-service all
+   allow-service sshd
+   allow-service netconf
+  no shutdown
+ !
+ ip route 0.0.0.0/0 51.51.51.2
+ commit and-quit
+```
+Now we should have reachability between the controllers and the vEdge01 over internet transport, at this point we copy the CA.crt file from our jump host to the vEdge using the command 
+```
+scp CA.crt admin@51.51.51.51:
+````
+![image](https://user-images.githubusercontent.com/84218572/133274663-05b59e93-fbfa-45a6-9774-00850139d5b7.png)
+
+To verify CA.crt was copied go into vshell of the edge device and issue ```ls -l``` command we should see the CA.crt file here.
+
+![image](https://user-images.githubusercontent.com/84218572/133275600-73e89410-0154-4e15-98dd-7c628de69e65.png)
+
+Next step would be to install the Root CA using the below command on the vEdge
+Install the CA Cert:
+```
+request root-cert-chain install /home/admin/CA.crt
+```
+![image](https://user-images.githubusercontent.com/84218572/133275752-2202deff-b4cd-4153-9b95-168d2e0ead59.png)
+
+The final step would be to activate the vEdge usning the command
+```
+request vedge-cloud activate chassis-number <uuid> token <otp>
+request vedge-cloud activate chassis-number 3feafc93-2414-f6a8-e2b8-2f39156a010f token 7fb6cf6468437f37c3054ad4cf84dab5
+```
+Where ```uuid=3feafc93-2414-f6a8-e2b8-2f39156a010f and otp=7fb6cf6468437f37c3054ad4cf84dab5``` are obtained from vManage GUI by navigating to ```Configuration > Devices > WAN Edge list``` and selecting any free entry from the list and generating the bootstrap config and using the UUID and token value from there in the above command.
+
+![image](https://user-images.githubusercontent.com/84218572/133277243-2063fd88-453c-46b7-bc6f-05df03fa3e77.png)
+
+The above steps needs to be repeated for all the vedges in the topology once done successfully all should appear in the vManage dashboard and Monitor as below:
+
+![image](https://user-images.githubusercontent.com/84218572/133279203-dddf1015-0c74-4439-938f-56a2790f3f8c.png)
+
+![image](https://user-images.githubusercontent.com/84218572/133279429-bb91f933-b2f1-4448-a410-f6da554b5c87.png)
+
+
 
