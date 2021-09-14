@@ -1,0 +1,180 @@
+
+!
+version 15.5
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname BoarderRTR
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+bsd-client server url https://cloudsso.cisco.com/as/token.oauth2
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+ip dhcp excluded-address 51.51.51.1 51.51.51.150
+!
+ip dhcp pool Inet-Pool
+ network 51.51.51.0 255.255.255.0
+ default-router 51.51.51.2 
+ dns-server 51.51.51.2 
+ domain-name mylab.com
+!
+!
+!
+ip domain name mylab.com
+ip host vbond.mylab.com 1.1.1.3
+ip host ZTP.vIpTELA.coM 51.51.51.51
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+cts logging verbose
+!
+!
+username admin privilege 15 password 0 admin
+!
+redundancy
+!
+!
+ip ssh version 2
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ no shutdown
+ ip address 172.16.1.1 255.255.255.255
+ ip ospf 1 area 0
+!
+interface Ethernet0/0
+ no shutdown
+ description to_vpn0
+ ip address 1.1.1.14 255.255.255.240
+ ip virtual-reassembly in
+ ip ospf 1 area 0
+!
+interface Ethernet0/1
+ no shutdown
+ description to_int_switch
+ ip address 51.51.51.2 255.255.255.0
+ ip ospf 1 area 0
+!
+interface Ethernet0/2
+ no shutdown
+ description to_mpls
+ ip address 10.0.0.2 255.255.255.252
+ ip ospf 1 area 0
+!
+interface Ethernet0/3
+ no shutdown
+ description to_INternet_cloud
+ ip address 192.18.18.254 255.255.255.0
+ ip virtual-reassembly in
+!
+interface Ethernet1/0
+ no shutdown
+ description to_dc-rtr01
+ ip address 20.1.1.1 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
+ ip ospf 2 area 0
+!
+interface Ethernet1/1
+ no shutdown
+ no ip address
+ shutdown
+!
+interface Ethernet1/2
+ no shutdown
+ no ip address
+ shutdown
+!
+interface Ethernet1/3
+ no shutdown
+ no ip address
+ shutdown
+!
+router ospf 1
+ router-id 1.2.3.4
+ default-information originate
+!
+router ospf 2
+ router-id 2.3.4.5
+ default-information originate
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip dns server
+ip route 0.0.0.0 0.0.0.0 Null0
+ip route 10.0.0.0 255.0.0.0 20.1.1.2
+!
+ip access-list extended NAT
+ permit ip 10.0.0.0 0.255.255.255 any
+ permit ip 1.1.1.0 0.0.0.15 any
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+!
+end
