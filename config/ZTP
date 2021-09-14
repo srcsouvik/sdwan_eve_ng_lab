@@ -1,0 +1,98 @@
+system
+ host-name               ZTP
+ system-ip               50.50.50.50
+ admin-tech-on-failure
+ no route-consistency-check
+ no vrrp-advt-with-phymac
+ organization-name       srcsdwanlab
+ vbond 51.51.51.51 local ztp-server
+ aaa
+  auth-order local radius tacacs
+  usergroup basic
+   task system read write
+   task interface read write
+  !
+  usergroup netadmin
+  !
+  usergroup operator
+   task system read
+   task interface read
+   task policy read
+   task routing read
+   task security read
+  !
+  usergroup tenantadmin
+  !
+  user admin
+   password $6$37d35814cc77de96$VQOklhrsZvIWfzsdQxCE.YafrvXnookrIHzjDPwn2HSYIDtvjNQtmOdpgtalcp00ADchj.qHXQRsJT8lbxGB9.
+  !
+  user ciscotacro
+   description CiscoTACReadOnly
+   group       operator
+   status      enabled
+  !
+  user ciscotacrw
+   description CiscoTACReadWrite
+   group       netadmin
+   status      enabled
+  !
+ !
+ logging
+  disk
+   enable
+  !
+ !
+ ntp
+  parent
+   no enable
+   stratum 5
+  exit
+ !
+ support
+  zbfw-tcp-finwait-time 30
+  zbfw-tcp-idle-time    3600
+  zbfw-tcp-synwait-time 30
+  zbfw-udp-idle-time    30
+ !
+!
+omp
+ no shutdown
+ graceful-restart
+ advertise connected
+ advertise static
+!
+security
+ ipsec
+  authentication-type ah-sha1-hmac sha1-hmac
+ !
+!
+vpn 0
+ dns 51.51.51.2 primary
+ interface ge0/0
+  ip address 51.51.51.51/24
+  ipv6 dhcp-client
+  tunnel-interface
+   encapsulation ipsec
+   allow-service all
+   no allow-service bgp
+   allow-service dhcp
+   allow-service dns
+   allow-service icmp
+   allow-service sshd
+   allow-service netconf
+   no allow-service ntp
+   no allow-service ospf
+   no allow-service stun
+   allow-service https
+  !
+  no shutdown
+ !
+ ip route 0.0.0.0/0 51.51.51.2
+!
+vpn 512
+ interface eth0
+  ip dhcp-client
+  ipv6 dhcp-client
+  no shutdown
+ !
+!
