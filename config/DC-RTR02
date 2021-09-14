@@ -1,0 +1,150 @@
+
+!
+version 15.5
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname DC-RTR01
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+bsd-client server url https://cloudsso.cisco.com/as/token.oauth2
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+cts logging verbose
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ no shutdown
+ ip address 10.100.100.100 255.255.255.255
+ ip ospf 1 area 0
+!
+interface Ethernet0/0
+ no shutdown
+ ip address 10.100.0.2 255.255.255.252
+ ip ospf 1 area 0
+ ip ospf cost 100
+!
+interface Ethernet0/1
+ no shutdown
+ ip address 10.100.0.6 255.255.255.252
+ ip ospf 1 area 0
+ ip ospf cost 150
+!
+interface Ethernet0/2
+ no shutdown
+ ip address 10.1.100.9 255.255.255.252
+ ip ospf 2 area 0
+!
+interface Ethernet0/3
+ no shutdown
+ ip address 20.1.1.2 255.255.255.252
+ ip ospf 3 area 0
+!
+router ospf 1
+ router-id 111.111.111.111
+ summary-address 10.0.0.0 255.0.0.0
+ redistribute ospf 2 subnets
+ redistribute ospf 3 subnets route-map MR_OUT
+ default-information originate
+!
+router ospf 2
+ router-id 11.11.11.11
+ redistribute ospf 1 subnets
+!
+router ospf 3
+ router-id 33.33.33.33
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+route-map MR_OUT deny 10
+ match ip address 10
+!
+route-map MR_OUT permit 20
+!
+route-map RM-OOT permit 10
+!
+!
+access-list 10 permit 20.1.1.0 0.0.0.3
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+!
+end
