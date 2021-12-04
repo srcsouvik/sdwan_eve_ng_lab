@@ -215,7 +215,7 @@ system
 !
 vpn 0
  interface ge0/0
-  ip address 51.51.10.10/24
+  ip address 51.51.51.10/24
   ipv6 dhcp-client
   tunnel-interface
    allow-service all
